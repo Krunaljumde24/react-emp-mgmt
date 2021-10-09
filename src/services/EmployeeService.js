@@ -1,0 +1,11 @@
+import axios from "axios";
+
+const EMPLOYEE_API_BASE_URL = "http://localhost:8080/employee_mgmt_svc/api/v1.0/getEmployees";
+
+class EmployeeService {
+    getEmployees() {
+        return axios.get(EMPLOYEE_API_BASE_URL);
+    }
+}
+
+export default new EmployeeService();

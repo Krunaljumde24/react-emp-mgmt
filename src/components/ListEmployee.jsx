@@ -1,22 +1,34 @@
 import React, { Component } from 'react';
-
+import '../services/EmployeeService';
+import EmployeeService from '../services/EmployeeService';
 class ListEmployee extends Component {
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
-            employee: [{
-                "id":"001",
-                "firstName":"krunal",
-                "lastName":"jumde",
-                "emailId":"krunaljumde24@gmail.com"
-            }]
+            employees: []
         }
+        this.addEmployee = this.addEmployee.bind(this);
+    }
+
+    componentDidMount() {
+        EmployeeService.getEmployees().then((res) => {
+            this.setState({ employees: res.data })
+        });
+    }
+
+    addEmployee(){
+        this.props.history.push('/add-employee');
     }
 
     render() {
         return (
             <div>
                 <h2 className="text-center">Employee List</h2>
+                <div className="row">
+                    <div>
+                        <button className="btn btn-primary" onClick={this.addEmployee}>Add Employee </button>
+                    </div>
+                </div>
                 <div className="row">
                     <table className="table table-striped table-bordered">
                         <thead>
@@ -30,14 +42,13 @@ class ListEmployee extends Component {
 
                         <tbody>
                             {
-                                this.state.employee.map(
-                                    emp =>{
-                                        <tr key= {emp.id}>
-                                            <td>{emp.firstName}</td>
-                                            <td>{emp.lastName}</td>
-                                            <td>{emp.emailId}</td>
+                                this.state.employees.map(
+                                    employee =>
+                                        <tr key={employee.id}>
+                                            <td> {employee.firstName} </td>
+                                            <td> {employee.lastName}</td>
+                                            <td> {employee.emailId}</td>
                                         </tr>
-                                    }
                                 )
                             }
                         </tbody>
